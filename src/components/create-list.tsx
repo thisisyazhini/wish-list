@@ -43,7 +43,9 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
       <Card>
         <h3>Design your wishlist</h3>
         <p>Create your list and share it with others!</p>
-        <label>Title</label>
+        <label>
+          <strong>Title</strong>
+        </label>
         <InputGroup
           className="vertical-margin"
           large
@@ -52,7 +54,9 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
           value={state.name}
           onChange={(e) => onUpdate({ name: e.target.value })}
         />
-        <label>Description</label>
+        <label>
+          <strong>Description</strong>
+        </label>
         <TextArea
           className="vertical-margin block"
           large
@@ -63,13 +67,17 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
           onChange={(e) => onUpdate({ description: e.target.value })}
         />
         <Checkbox
-          label="Should others be able to <strong>reserve items!</strong>"
           checked={state.allowReservation}
           onChange={() =>
             onUpdate({ allowReservation: !state.allowReservation })
           }
-        ></Checkbox>
-        <label>Items</label>
+        >
+          Should others be able to
+          <strong> reserve items!</strong>
+        </Checkbox>
+        <label>
+          <strong>Items</strong>
+        </label>
         {state.items.map((item, index) => (
           <InputGroup
             className="vertical-margin"

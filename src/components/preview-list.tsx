@@ -15,16 +15,17 @@ export function PreviewList() {
   const reserveItem = (index: number) => {
     if (!!list) {
       list.items[index].isReserved = !list.items[index].isReserved;
-      ({ items: list.items });
+      setList({ ...list, items: list.items });
+      localStorage.setItem(list.id.toString(), JSON.stringify(list));
     }
   };
   return (
     <>
       <h1>{list?.name}</h1>
-      {list?.description && <p>{list?.description}</p>}
+      {list?.description && <p className="center-align">{list?.description}</p>}
       <>
         {list?.items.map((item, index) => (
-          <Card>
+          <Card className="vertical-margin">
             <h2>{item.name}</h2>
             {list.allowReservation && (
               <Button key={index} onClick={() => reserveItem(index)}>

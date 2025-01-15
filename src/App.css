@@ -1,7 +1,4 @@
-#root{
-  max-width: 1280px;
-  margin:0 auto;
-}
+
 .vertical-margin{
   margin: 10px 0;
 }
@@ -17,4 +14,7 @@
 }
 .bp5-icon > svg:not([fill]) {
   fill: #ac2f33;
+}
+.center-align{
+  text-align: center;
 }
