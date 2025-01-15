@@ -2,3 +2,19 @@
   max-width: 1280px;
   margin:0 auto;
 }
+.vertical-margin{
+  margin: 10px 0;
+}
+.block{
+  display: block;
+}
+.flex{
+  display: flex;
+  justify-content: flex-start;
+}
+.left-margin{
+  margin-left:10px;
+}
+.bp5-icon > svg:not([fill]) {
+  fill: #ac2f33;
+}

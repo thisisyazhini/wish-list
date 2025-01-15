@@ -1,26 +1,32 @@
 import { Button, Card } from '@blueprintjs/core';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { List } from '../item';
 
-export function PreviewList({
-  state,
-  onReservation,
-}: {
-  state: List;
-  onReservation: (state: Partial<List>) => void;
-}) {
+export function PreviewList() {
+  const params = useParams();
+  const [list, setList] = useState(() => {
+    if (params.id) {
+      const storedValue = localStorage.getItem(params.id);
+      return storedValue !== null ? (JSON.parse(storedValue) as List) : null;
+    }
+  });
+
   const reserveItem = (index: number) => {
-    state.items[index].isReserved = !state.items[index].isReserved;
-    onReservation({ items: state.items });
+    if (!!list) {
+      list.items[index].isReserved = !list.items[index].isReserved;
+      ({ items: list.items });
+    }
   };
   return (
     <>
-      <h1>{state.name}</h1>
-      {state.description && <p>{state.description}</p>}
+      <h1>{list?.name}</h1>
+      {list?.description && <p>{list?.description}</p>}
       <>
-        {state.items.map((item, index) => (
+        {list?.items.map((item, index) => (
           <Card>
             <h2>{item.name}</h2>
-            {state.allowReservation && (
+            {list.allowReservation && (
               <Button key={index} onClick={() => reserveItem(index)}>
                 {item.isReserved ? 'Item Reserved' : 'Reserve Item'}
               </Button>
