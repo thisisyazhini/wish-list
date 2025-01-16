@@ -21,12 +21,14 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
       { id: index, name: newItem, isReserved: false },
     ];
     onUpdate({ items: items });
+    saveToStorage();
   };
 
   const handleItemInputChange = (name: string, index: number) => {
     const itemsInList = [...state.items];
     itemsInList[index].name = name;
     onUpdate({ items: itemsInList });
+    saveToStorage();
   };
   const deleteItemInList = (index: number) => {
     const itemsInList = [
@@ -34,6 +36,7 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
       ...state.items.slice(index + 1),
     ];
     onUpdate({ items: itemsInList });
+    saveToStorage();
   };
   const saveToStorage = () => {
     localStorage.setItem(state.id.toString(), JSON.stringify(state));
@@ -58,7 +61,7 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
           <strong>Description</strong>
         </label>
         <TextArea
-          className="vertical-margin block"
+          className="vertical-margin block full-width"
           large
           autoResize={true}
           asyncControl={true}

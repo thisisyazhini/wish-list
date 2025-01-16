@@ -15,6 +15,11 @@ export function PreviewList() {
   const reserveItem = (index: number) => {
     if (!!list) {
       list.items[index].isReserved = !list.items[index].isReserved;
+      // sort the reserved items to the bottom of the list
+      list.items.sort((a, b) => {
+        if (a.isReserved === b.isReserved) return 0;
+        return a.isReserved ? 1 : -1;
+      });
       setList({ ...list, items: list.items });
       localStorage.setItem(list.id.toString(), JSON.stringify(list));
     }

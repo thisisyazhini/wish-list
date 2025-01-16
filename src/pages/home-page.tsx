@@ -17,6 +17,10 @@ const HomePage = () => {
       ...prevState,
       ...newState,
     }));
+    localStorage.setItem(
+      combinedListState.id.toString(),
+      JSON.stringify(combinedListState)
+    );
   };
   return (
     <>
