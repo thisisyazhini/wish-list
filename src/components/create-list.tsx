@@ -6,8 +6,8 @@ import {
   InputGroup,
   TextArea,
 } from '@blueprintjs/core';
-import { List } from '../item';
 import { Link } from 'react-router-dom';
+import { List } from '../list';
 
 type CreateListProps = {
   state: List;
@@ -39,87 +39,79 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
     saveToStorage();
   };
   const saveToStorage = () => {
+    // TODO: Duplicated here and in parent
     localStorage.setItem(state.id.toString(), JSON.stringify(state));
   };
   return (
-    <>
-      <Card>
-        <h3>Design your wishlist</h3>
-        <p>Create your list and share it with others!</p>
-        <label>
-          <strong>Title</strong>
-        </label>
+    <Card>
+      <h3>Design your wishlist</h3>
+      <p>Create your list and share it with others!</p>
+      <label>
+        <strong>Title</strong>
+      </label>
+      <InputGroup
+        className="vertical-margin"
+        large
+        asyncControl={true}
+        placeholder="Name the list"
+        value={state.name}
+        onChange={(e) => onUpdate({ name: e.target.value })}
+      />
+      <label>
+        <strong>Description</strong>
+      </label>
+      <TextArea
+        className="vertical-margin block full-width"
+        large
+        autoResize={true}
+        asyncControl={true}
+        placeholder="Purpose of the list"
+        value={state.description}
+        onChange={(e) => onUpdate({ description: e.target.value })}
+      />
+      <Checkbox
+        checked={state.allowReservation}
+        onChange={() => onUpdate({ allowReservation: !state.allowReservation })}
+      >
+        Should others be able to
+        <strong> reserve items!</strong>
+      </Checkbox>
+      <label>
+        <strong>Items</strong>
+      </label>
+      {state.items.map((item, index) => (
         <InputGroup
           className="vertical-margin"
           large
           asyncControl={true}
-          placeholder="Name the list"
-          value={state.name}
-          onChange={(e) => onUpdate({ name: e.target.value })}
-        />
-        <label>
-          <strong>Description</strong>
-        </label>
-        <TextArea
-          className="vertical-margin block full-width"
-          large
-          autoResize={true}
-          asyncControl={true}
-          placeholder="Purpose of the list"
-          value={state.description}
-          onChange={(e) => onUpdate({ description: e.target.value })}
-        />
-        <Checkbox
-          checked={state.allowReservation}
-          onChange={() =>
-            onUpdate({ allowReservation: !state.allowReservation })
+          placeholder="iPad"
+          rightElement={
+            <Button minimal onClick={() => deleteItemInList(index)}>
+              <Icon icon={'delete'} size={20} />
+            </Button>
           }
-        >
-          Should others be able to
-          <strong> reserve items!</strong>
-        </Checkbox>
-        <label>
-          <strong>Items</strong>
-        </label>
-        {state.items.map((item, index) => (
-          <InputGroup
-            className="vertical-margin"
-            large
-            asyncControl={true}
-            placeholder="iPad"
-            rightElement={
-              <Button minimal onClick={() => deleteItemInList(index)}>
-                <Icon icon={'delete'} size={20} />
-              </Button>
-            }
-            key={index}
-            value={item.name}
-            onChange={(event) =>
-              handleItemInputChange(event.target.value, index)
-            }
-          />
-        ))}
-        <Button
-          className="vertical-margin block"
-          large
-          onClick={() => addItem('', state.items.length + 1)}
-        >
-          + Add Item
+          key={index}
+          value={item.name}
+          onChange={(event) => handleItemInputChange(event.target.value, index)}
+        />
+      ))}
+      <Button
+        className="vertical-margin block"
+        large
+        onClick={() => addItem('', state.items.length + 1)}
+      >
+        + Add Item
+      </Button>
+      <div className="flex">
+        <Button large onClick={saveToStorage}>
+          Create Wishlist
         </Button>
-        <div className="flex">
-          <Button
-            large
-            onClick={() => {
-              saveToStorage();
-            }}
-          >
-            Create Wishlist
-          </Button>
+        <Link to={`/preview/${state.id}`}>
           <Button className="left-margin" large>
-            <Link to={`/preview/${state.id}`}>Toggle Preview</Link>
+            Toggle Preview
           </Button>
-        </div>
-      </Card>
-    </>
+        </Link>
+      </div>
+    </Card>
   );
 }
