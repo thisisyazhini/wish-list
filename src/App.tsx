@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import HomePage from './pages/home-page';
 import { PreviewListPage } from './pages/preview-list-page';
-import NotFoundPage from './pages/404-page';
+import NotFoundPage from './pages/not-found-page';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
