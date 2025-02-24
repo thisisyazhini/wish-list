@@ -30,26 +30,34 @@ export function PreviewListPage() {
     return;
   }
   return (
-    <Card>
-      <CardHeader>
-        <h1>{list.name}</h1>
-        {list.description && <p className="center-align">{list.description}</p>}
-      </CardHeader>
-      <CardContent>
-        {list.items.map((item, index) => (
-          <Card>
-            <CardContent>
-              <Label>{item.name}</Label>
+    <div className="flex justify-center rounded-lg tranform rotate-2 min-w-screen">
+      <Card className="bg-indigo-500 text-white font-display min-w-xl">
+        <CardHeader>
+          <h1>{list.name}</h1>
+          {list.description && (
+            <p className="center-align">{list.description}</p>
+          )}
+        </CardHeader>
+        <CardContent className="flex flex-col gap-3">
+          {list.items.map((item, index) => (
+            <Card>
+              <CardContent className="flex items-center justify-between">
+                <Label>{item.name}</Label>
 
-              {!list.allowReservation && (
-                <Button key={index} onClick={() => reserveItem(index)}>
-                  {item.isReserved ? 'Item Reserved' : 'Reserve Item'}
-                </Button>
-              )}
-            </CardContent>
-          </Card>
-        ))}
-      </CardContent>
-    </Card>
+                {!list.allowReservation && (
+                  <Button
+                    variant="outline"
+                    key={index}
+                    onClick={() => reserveItem(index)}
+                  >
+                    {item.isReserved ? 'Item Reserved' : 'Reserve Item'}
+                  </Button>
+                )}
+              </CardContent>
+            </Card>
+          ))}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

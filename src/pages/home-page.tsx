@@ -26,10 +26,12 @@ const HomePage = () => {
     );
   };
   return (
-    <CreateList
-      state={combinedListState}
-      onUpdate={(state) => updateListState(state)}
-    ></CreateList>
+    <div className="flex justify-center px-10 ">
+      <CreateList
+        state={combinedListState}
+        onUpdate={(state) => updateListState(state)}
+      ></CreateList>
+    </div>
   );
 };
 
