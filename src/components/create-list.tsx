@@ -1,13 +1,18 @@
-import {
-  Button,
-  Card,
-  Checkbox,
-  Icon,
-  InputGroup,
-  TextArea,
-} from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 import { List } from '../list';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from './ui/card';
+import { Button } from './ui/button';
+import { Checkbox } from './ui/checkbox';
+import { Label } from './ui/label';
+import { Textarea } from './ui/textarea';
+import { Input } from './ui/input';
 
 type CreateListProps = {
   state: List;
@@ -44,74 +49,93 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
   };
   return (
     <Card>
-      <h3>Design your wishlist</h3>
-      <p>Create your list and share it with others!</p>
-      <label>
-        <strong>Title</strong>
-      </label>
-      <InputGroup
-        className="vertical-margin"
-        large
-        asyncControl={true}
-        placeholder="Name the list"
-        value={state.name}
-        onChange={(e) => onUpdate({ name: e.target.value })}
-      />
-      <label>
-        <strong>Description</strong>
-      </label>
-      <TextArea
-        className="vertical-margin block full-width"
-        large
-        autoResize={true}
-        asyncControl={true}
-        placeholder="Purpose of the list"
-        value={state.description}
-        onChange={(e) => onUpdate({ description: e.target.value })}
-      />
-      <Checkbox
-        checked={state.allowReservation}
-        onChange={() => onUpdate({ allowReservation: !state.allowReservation })}
-      >
-        Should others be able to
-        <strong> reserve items!</strong>
-      </Checkbox>
-      <label>
-        <strong>Items</strong>
-      </label>
-      {state.items.map((item, index) => (
-        <InputGroup
-          className="vertical-margin"
-          large
-          asyncControl={true}
-          placeholder="iPad"
-          rightElement={
-            <Button minimal onClick={() => deleteItemInList(index)}>
-              <Icon icon={'delete'} size={20} />
+      <CardHeader>
+        <CardTitle>Design your wishlist</CardTitle>
+        <CardDescription>
+          Create your list and share it with others!
+        </CardDescription>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-6">
+        <div className="grid w-full gap-1.5">
+          <Label htmlFor="message">Title</Label>
+          <Input
+            className="rounded-2xl"
+            placeholder="Name the list"
+            id="message"
+            value={state.name}
+            onChange={(e) => onUpdate({ name: e.target.value })}
+          />
+        </div>
+        <div className="grid w-full gap-1.5">
+          <Label htmlFor="message">Description</Label>
+          <Textarea
+            placeholder="Purpose of the list"
+            id="message"
+            value={state.description}
+            onChange={(e) => onUpdate({ description: e.target.value })}
+          />
+        </div>
+        <div className="items-top flex space-x-2">
+          <Checkbox
+            id="terms1"
+            checked={state.allowReservation}
+            onChange={() =>
+              onUpdate({ allowReservation: !state.allowReservation })
+            }
+          />
+          <div className="grid gap-1.5 leading-none">
+            <label
+              htmlFor="terms1"
+              className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+            >
+              Should others be able to
+              <strong> reserve items!</strong>
+            </label>
+            <p className="text-sm text-muted-foreground">
+              You will be able to see if the item is reserved :)
+            </p>
+          </div>
+        </div>
+        <label>
+          <strong>Items</strong>
+        </label>
+        {state.items.length === 0 && <p>Add an item</p>}
+        {state.items.map((item, index) => (
+          <div className="flex w-full max-w-sm items-center space-x-2">
+            <Input
+              type="text"
+              placeholder="iPad"
+              value={item.name}
+              onChange={(event) =>
+                handleItemInputChange(event.target.value, index)
+              }
+            />
+            <Button
+              type="submit"
+              variant="outline"
+              onClick={() => deleteItemInList(index)}
+            >
+              Delete
             </Button>
-          }
-          key={index}
-          value={item.name}
-          onChange={(event) => handleItemInputChange(event.target.value, index)}
-        />
-      ))}
-      <Button
-        className="vertical-margin block"
-        large
-        onClick={() => addItem('', state.items.length + 1)}
-      >
-        + Add Item
-      </Button>
-      <div className="flex">
-        <Button large onClick={saveToStorage}>
-          Create Wishlist
+          </div>
+        ))}
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button
+          variant="outline"
+          onClick={() => addItem('', state.items.length + 1)}
+        >
+          + Add Item
         </Button>
-        <Link to={`/preview/${state.id}`}>
-          <Button className="left-margin" large>
-            Toggle Preview
+        <div className="flex gap-20">
+          <Button variant="outline" onClick={saveToStorage}>
+            Create Wishlist
           </Button>
-        </Link>
-      </div>
+          <Link to={`/preview/${state.id}`}>
+            <Button variant="outline">Toggle Preview</Button>
+          </Link>
+        </div>
+      </CardFooter>
     </Card>
   );
 }

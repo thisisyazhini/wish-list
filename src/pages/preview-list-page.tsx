@@ -1,7 +1,9 @@
-import { Button, Card } from '@blueprintjs/core';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { List } from '../list';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@radix-ui/react-label';
 
 export function PreviewListPage() {
   const params = useParams();
@@ -13,7 +15,7 @@ export function PreviewListPage() {
   });
 
   const reserveItem = (index: number) => {
-    if (!!list) {
+    if (list) {
       list.items[index].isReserved = !list.items[index].isReserved;
       // sort the reserved items to the bottom of the list
       list.items.sort((a, b) => {
@@ -28,21 +30,26 @@ export function PreviewListPage() {
     return;
   }
   return (
-    <>
-      <h1>{list.name}</h1>
-      {list.description && <p className="center-align">{list.description}</p>}
-      <>
+    <Card>
+      <CardHeader>
+        <h1>{list.name}</h1>
+        {list.description && <p className="center-align">{list.description}</p>}
+      </CardHeader>
+      <CardContent>
         {list.items.map((item, index) => (
-          <Card className="vertical-margin">
-            <h2>{item.name}</h2>
-            {list.allowReservation && (
-              <Button key={index} onClick={() => reserveItem(index)}>
-                {item.isReserved ? 'Item Reserved' : 'Reserve Item'}
-              </Button>
-            )}
+          <Card>
+            <CardContent>
+              <Label>{item.name}</Label>
+
+              {!list.allowReservation && (
+                <Button key={index} onClick={() => reserveItem(index)}>
+                  {item.isReserved ? 'Item Reserved' : 'Reserve Item'}
+                </Button>
+              )}
+            </CardContent>
           </Card>
         ))}
-      </>
-    </>
+      </CardContent>
+    </Card>
   );
 }

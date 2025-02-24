@@ -8,6 +8,7 @@ import {
 import HomePage from './pages/home-page';
 import { PreviewListPage } from './pages/preview-list-page';
 import NotFoundPage from './pages/not-found-page';
+import Header from './layouts/header';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,7 +21,12 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <Header />
+      <RouterProvider router={router}></RouterProvider>
+    </>
+  );
 }
 
 export default App;
