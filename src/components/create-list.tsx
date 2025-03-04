@@ -48,7 +48,7 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
     localStorage.setItem(state.id.toString(), JSON.stringify(state));
   };
   return (
-    <Card className="bg-indigo-500 text-white rounded-2xl transform rotate-2">
+    <Card className="transform rotate-2">
       <CardHeader>
         <CardTitle>Design your wishlist</CardTitle>
         <CardDescription>

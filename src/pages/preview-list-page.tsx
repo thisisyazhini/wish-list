@@ -31,7 +31,7 @@ export function PreviewListPage() {
   }
   return (
     <div className="flex justify-center rounded-lg tranform rotate-2 min-w-screen">
-      <Card className="bg-indigo-500 text-white font-display min-w-xl">
+      <Card className="font-display min-w-xl">
         <CardHeader>
           <h1>{list.name}</h1>
           {list.description && (
