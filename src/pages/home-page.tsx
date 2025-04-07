@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { CreateList } from '../components/create-list';
 import { List } from '../list';
+import { ListContext } from '@/lib/utils';
 
 const HomePage = () => {
   const [combinedListState, setCombinedListState] = useState<List>({
@@ -11,7 +12,6 @@ const HomePage = () => {
     items: [],
     allowReservation: false,
   });
-
   const updateListState = (newState: Partial<List>) => {
     setCombinedListState((prevState) => ({
       ...prevState,
@@ -27,10 +27,12 @@ const HomePage = () => {
   };
   return (
     <div className="flex justify-center px-10 ">
-      <CreateList
-        state={combinedListState}
-        onUpdate={(state) => updateListState(state)}
-      ></CreateList>
+      <ListContext.Provider value={{ combinedListState, setCombinedListState }}>
+        <CreateList
+          state={combinedListState}
+          onUpdate={(state) => updateListState(state)}
+        ></CreateList>
+      </ListContext.Provider>
     </div>
   );
 };

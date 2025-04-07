@@ -13,6 +13,7 @@ import { Checkbox } from './ui/checkbox';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { Input } from './ui/input';
+import { useList } from './useList';
 
 type CreateListProps = {
   state: List;
@@ -20,6 +21,7 @@ type CreateListProps = {
 };
 
 export function CreateList({ state, onUpdate }: CreateListProps) {
+  const list = useList();
   const addItem = (newItem: string, index: number) => {
     const items = [
       ...state.items,
@@ -100,8 +102,11 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
           <strong>Items</strong>
         </label>
         {state.items.length === 0 && <p>Add an item</p>}
-        {state.items.map((item, index) => (
-          <div className="flex w-full max-w-sm items-center space-x-2">
+        {list?.items.map((item, index) => (
+          <div
+            className="flex w-full max-w-sm items-center space-x-2"
+            key={index}
+          >
             <Input
               type="text"
               placeholder="iPad"
