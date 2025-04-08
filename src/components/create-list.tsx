@@ -28,14 +28,14 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
       { id: index, name: newItem, isReserved: false },
     ];
     onUpdate({ items: items });
-    saveToStorage();
+    // saveToStorage();
   };
 
   const handleItemInputChange = (name: string, index: number) => {
     const itemsInList = [...state.items];
     itemsInList[index].name = name;
     onUpdate({ items: itemsInList });
-    saveToStorage();
+    // saveToStorage();
   };
   const deleteItemInList = (index: number) => {
     const itemsInList = [
@@ -43,14 +43,14 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
       ...state.items.slice(index + 1),
     ];
     onUpdate({ items: itemsInList });
-    saveToStorage();
+    // saveToStorage();
   };
-  const saveToStorage = () => {
-    // TODO: Duplicated here and in parent
-    localStorage.setItem(state.id.toString(), JSON.stringify(state));
-  };
+  // const saveToStorage = () => {
+  //   // TODO: Duplicated here and in parent
+  //   localStorage.setItem(state.id.toString(), JSON.stringify(state));
+  // };
   return (
-    <Card className="transform rotate-2">
+    <Card>
       <CardHeader>
         <CardTitle>Design your wishlist</CardTitle>
         <CardDescription>
@@ -80,7 +80,6 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
         <div className="items-top flex space-x-2">
           <Checkbox
             id="terms1"
-            checked={state.allowReservation}
             onChange={() =>
               onUpdate({ allowReservation: !state.allowReservation })
             }
@@ -94,7 +93,7 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
               <strong> reserve items!</strong>
             </label>
             <p className="text-sm text-muted-foreground">
-              You will be able to see if the item is reserved :)
+              You will be able to see if the item is reserved!
             </p>
           </div>
         </div>
@@ -125,17 +124,15 @@ export function CreateList({ state, onUpdate }: CreateListProps) {
           </div>
         ))}
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex justify-between gap-2">
         <Button
           variant="outline"
           onClick={() => addItem('', state.items.length + 1)}
         >
           + Add Item
         </Button>
-        <div className="flex">
-          <Button variant="outline" onClick={saveToStorage}>
-            Create Wishlist
-          </Button>
+        <div className="flex gap-2">
+          <Button variant="outline">Create Wishlist</Button>
           <Link to={`/preview/${state.id}`}>
             <Button variant="outline">Toggle Preview</Button>
           </Link>
